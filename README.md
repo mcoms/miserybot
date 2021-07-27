@@ -36,4 +36,4 @@ ruby app.rb
 
 ### Testing
 
-A nice PR for this project would be to write some tests using (minitest](https://github.com/seattlerb/minitest).
+A nice PR for this project would be to write some tests using [minitest](https://github.com/seattlerb/minitest).
