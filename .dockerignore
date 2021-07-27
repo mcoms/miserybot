@@ -1,0 +1,4 @@
+.env
+.env.*
+.rubocop.yml
+README.md
