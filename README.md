@@ -1,6 +1,6 @@
 # miserybot
 
-Gets the latest UK Coronavirus stats and posts them to Slack each day at 6:15pm, which is just after they're released.
+Gets the latest UK Coronavirus stats and posts them to Slack each day at 4:15pm, which is just after they're released.
 
 ## Running
 
@@ -13,7 +13,7 @@ docker build -t miserybot .
 docker run --rm -t -e SLACK_API_TOKEN=abc123... -e SLACK_CHANNEL=#covid-updates miserybot
 ```
 
-The app starts a long-running process which waits until 6:15pm then gets the latest numbers and posts them to the channel you specified:
+The app starts a long-running process which waits until 4:15pm then gets the latest numbers and posts them to the channel you specified:
 
 ```
 Latest UK numbers (daily):
