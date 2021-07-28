@@ -1,6 +1,6 @@
 # miserybot
 
-Gets the latest UK Coronavirus stats and posts them to Slack each day at 4:15pm, which is just after they're released.
+Gets the [latest UK Coronavirus stats](https://coronavirus.data.gov.uk/) and posts them to Slack each day at 4:15pm, which is just after they're released.
 
 ## Running
 
@@ -37,3 +37,7 @@ ruby app.rb
 ### Testing
 
 A nice PR for this project would be to write some tests using [minitest](https://github.com/seattlerb/minitest).
+
+## Legalese
+
+This project adopts the [MIT License](LICENSE) and the [No Code of Conduct](CODE_OF_CONDUCT.md). The default branch is `master`. Contains public sector information licensed under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
