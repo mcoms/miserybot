@@ -15,6 +15,7 @@ DATA_URL = 'https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric
 SLACK_API_TOKEN = ENV.fetch 'SLACK_API_TOKEN'
 SLACK_CHANNEL = ENV.fetch 'SLACK_CHANNEL'
 
+$stdout.sync = true
 logger = Logger.new($stdout)
 scheduler = Rufus::Scheduler.new
 

@@ -9,8 +9,10 @@ Get a [User OAuth Token from Slack](https://api.slack.com/apps) by creating an a
 It should work if you use the Bot Token and Bot Token Scope for your app (and post as itself) but I haven't tested it.
 
 ```sh
-docker build -t miserybot .
-docker run --rm -t -e SLACK_API_TOKEN=abc123... -e SLACK_CHANNEL=#covid-updates miserybot
+docker run --rm \
+  -e SLACK_API_TOKEN='abc123...' \
+  -e SLACK_CHANNEL='#covid-updates' \
+  ghcr.io/mcoms/miserybot:latest
 ```
 
 The app starts a long-running process which waits until 4:15pm then gets the latest numbers and posts them to the channel you specified:
@@ -27,11 +29,23 @@ Latest UK numbers (daily):
 
 ## Development
 
+### Running locally
+
 ```sh
 cp .env .env.local
 # Put your Slack token etc. in .env.local
 bundle install
 ruby app.rb
+```
+
+### Running in Docker
+
+```sh
+docker build -t miserybot .
+docker run --rm \
+  -e SLACK_API_TOKEN='abc123...' \
+  -e SLACK_CHANNEL='#covid-updates' \
+  miserybot
 ```
 
 ### Testing
