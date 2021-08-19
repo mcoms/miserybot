@@ -3,6 +3,7 @@
 require 'bundler/setup'
 require 'dotenv'
 require 'logger'
+require 'retriable'
 require 'rufus-scheduler'
 
 require_relative 'lib/slack_client'
@@ -20,12 +21,17 @@ SLACK_THREAD_TS = ENV.fetch 'SLACK_THREAD_TS', nil
 $stdout.sync = true
 logger = Logger.new($stdout)
 scheduler = Rufus::Scheduler.new
+on_retry = proc do |exception|
+  logger.warn "Retrying due to #{exception.class}: '#{exception.message}'"
+end
 
 scheduler.cron CRON_SCHEDULE, overlap: false, timeout: '2m' do |job|
-  records = WebClient.new(DATA_URL).fetch_records
-  summary = Summariser.new(records).to_s
-  logger.debug summary
-  SlackClient.new(SLACK_API_TOKEN, SLACK_CHANNEL, SLACK_THREAD_TS).post_message(summary)
+  Retriable.retriable(on: Faraday::ServerError, on_retry: on_retry, tries: 5, base_interval: 5) do
+    records = WebClient.new(DATA_URL).fetch_records
+    summary = Summariser.new(records).to_s
+    logger.debug summary
+    SlackClient.new(SLACK_API_TOKEN, SLACK_CHANNEL, SLACK_THREAD_TS).post_message(summary)
+  end
   logger.debug "Next run will be at #{job.next_time.iso8601}"
 end
 

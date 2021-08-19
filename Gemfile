@@ -11,3 +11,5 @@ gem 'slack-ruby-client', '~> 0.17.0'
 group :development do
   gem 'rubocop', '~> 1.18'
 end
+
+gem 'retriable', '~> 3.1'
