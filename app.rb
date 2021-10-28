@@ -13,10 +13,14 @@ require_relative 'lib/web_client'
 Dotenv.load('.env.local', '.env')
 
 DATA_URL = 'https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=newAdmissions&metric=newCasesByPublishDate&metric=newDeaths28DaysByPublishDate&metric=newVirusTests&metric=newVaccinesGivenByPublishDate&format=json'
-CRON_SCHEDULE = '15 16 * * * Europe/London'
+CRON_SCHEDULE = ENV.fetch 'CRON_SCHEDULE', '15 16 * * * Europe/London'
 SLACK_API_TOKEN = ENV.fetch 'SLACK_API_TOKEN'
 SLACK_CHANNEL = ENV.fetch 'SLACK_CHANNEL'
 SLACK_THREAD_TS = ENV.fetch 'SLACK_THREAD_TS', nil
+SCHEDULER_TIMEOUT = ENV.fetch 'SCHEDULER_TIMEOUT', '10m'
+SCHEDULER_TRIES = ENV.fetch('SCHEDULER_TRIES', '5').to_i
+SCHEDULER_BASE_INTERVAL = ENV.fetch('SCHEDULER_BASE_INTERVAL', '20').to_i
+FARADAY_TIMEOUT = ENV.fetch('FARADAY_TIMEOUT', '10').to_i
 
 $stdout.sync = true
 logger = Logger.new($stdout)
@@ -25,9 +29,10 @@ on_retry = proc do |exception|
   logger.warn "Retrying due to #{exception.class}: '#{exception.message}'"
 end
 
-scheduler.cron CRON_SCHEDULE, overlap: false, timeout: '2m' do |job|
-  Retriable.retriable(on: Faraday::ServerError, on_retry: on_retry, tries: 5, base_interval: 5) do
-    records = WebClient.new(DATA_URL).fetch_records
+scheduler.cron(CRON_SCHEDULE, overlap: false, timeout: SCHEDULER_TIMEOUT) do |job|
+  Retriable.retriable(on: [Faraday::ServerError, Faraday::ConnectionFailed], on_retry: on_retry,
+                      tries: SCHEDULER_TRIES, base_interval: SCHEDULER_BASE_INTERVAL) do
+    records = WebClient.new(DATA_URL, timeout: FARADAY_TIMEOUT).fetch_records
     summary = Summariser.new(records).to_s
     logger.debug summary
     SlackClient.new(SLACK_API_TOKEN, SLACK_CHANNEL, SLACK_THREAD_TS).post_message(summary)

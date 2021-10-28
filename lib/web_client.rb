@@ -6,9 +6,9 @@ require 'json'
 require_relative 'record'
 
 class WebClient
-  def initialize(data_url)
+  def initialize(data_url, timeout: 30)
     @data_url = data_url
-    @connection = Faraday.new(request: { params_encoder: Faraday::FlatParamsEncoder }) do |f|
+    @connection = Faraday.new(request: { params_encoder: Faraday::FlatParamsEncoder, timeout: timeout }) do |f|
       f.response :follow_redirects
       f.response :json
       f.response :raise_error

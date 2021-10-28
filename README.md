@@ -36,6 +36,11 @@ You can configure the app by setting some environment variables.
 | `SLACK_API_TOKEN` | **_required_** | `xoxp-1234...` | Get a [User OAuth Token from Slack](https://api.slack.com/apps) by creating an app, giving it the `chat:write` User Token Scope, and installing it to your workspace. |
 | `SLACK_CHANNEL` | **_required_** | `#covid-updates` | The channel name or Slack channel ID of the channel to post messages to. |
 | `SLACK_THREAD_TS` | _optional_ | `1627405147.101100` | If you'd like to reply to a thread, include the TS value here. You can get this as part of the URL by copying the link to an existing message in Slack. The app will then thread its messages but will still broadcast them to the channel. Threading is a handy way to see previous stats in one place in order to spot trends. |
+| `CRON_SCHEDULE` | _optional_ | `15 16 * * * Europe/London` | When to get stats (cron syntax with optional timezone) |
+| `SCHEDULER_TIMEOUT` | _optional_ | `10m` | The total amount of time retrieving the stats is allowed to take before giving up. |
+| `SCHEDULER_TRIES` | _optional_ | `5` | The maximum number of times to try and retrieve stats each day (a server error will retry with exponential back-off). |
+| `SCHEDULER_BASE_INTERVAL` | _optional_ | `20` | The initial interval in seconds between tries. |
+| `FARADAY_TIMEOUT` | _optional_ | `10` | The number of seconds to try connecting, reading, writing to a HTTP connection before raising a timeout error. |
 
 ## Development
 
