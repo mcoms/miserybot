@@ -12,7 +12,7 @@ require_relative 'lib/web_client'
 
 Dotenv.load('.env.local', '.env')
 
-DATA_URL = 'https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=newAdmissions&metric=newCasesByPublishDate&metric=newDeaths28DaysByPublishDate&metric=newVirusTests&metric=newVaccinesGivenByPublishDate&format=json'
+DATA_URL = 'https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=newAdmissions&metric=newCasesByPublishDate&metric=newDeaths28DaysByPublishDate&metric=newVirusTestsByPublishDate&metric=newVaccinesGivenByPublishDate&format=json'
 CRON_SCHEDULE = ENV.fetch 'CRON_SCHEDULE', '15 16 * * * Europe/London'
 SLACK_API_TOKEN = ENV.fetch 'SLACK_API_TOKEN'
 SLACK_CHANNEL = ENV.fetch 'SLACK_CHANNEL'

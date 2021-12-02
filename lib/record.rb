@@ -10,7 +10,7 @@ class Record
     @date = Date.parse(hash['date'])
     @new_cases = hash['newCasesByPublishDate']
     @new_deaths = hash['newDeaths28DaysByPublishDate']
-    @new_tests = hash['newVirusTests']
+    @new_tests = hash['newVirusTestsByPublishDate']
     @new_vaccinations = hash['newVaccinesGivenByPublishDate']
     @new_admissions = hash['newAdmissions']
   end
