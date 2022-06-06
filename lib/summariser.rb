@@ -7,7 +7,7 @@ class Summariser
 
   def to_s
     <<~SUMMARY
-      Latest <https://coronavirus.data.gov.uk/|UK numbers> (daily):
+      Latest <https://coronavirus.data.gov.uk/|England numbers> (daily):
       - #{latest_cases_record.friendly_cases}
       - #{latest_admissions_record.friendly_admissions}
       - #{latest_deaths_record.friendly_deaths}

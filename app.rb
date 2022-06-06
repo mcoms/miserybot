@@ -10,17 +10,8 @@ require_relative 'lib/slack_client'
 require_relative 'lib/summariser'
 require_relative 'lib/web_client'
 
-Dotenv.load('.env.local', '.env')
-
-DATA_URL = 'https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=newAdmissions&metric=newCasesByPublishDate&metric=newDeaths28DaysByPublishDate&metric=newVirusTestsByPublishDate&metric=newVaccinesGivenByPublishDate&format=json'
-CRON_SCHEDULE = ENV.fetch 'CRON_SCHEDULE', '15 16 * * * Europe/London'
-SLACK_API_TOKEN = ENV.fetch 'SLACK_API_TOKEN'
-SLACK_CHANNEL = ENV.fetch 'SLACK_CHANNEL'
-SLACK_THREAD_TS = ENV.fetch 'SLACK_THREAD_TS', nil
-SCHEDULER_TIMEOUT = ENV.fetch 'SCHEDULER_TIMEOUT', '10m'
-SCHEDULER_TRIES = ENV.fetch('SCHEDULER_TRIES', '5').to_i
-SCHEDULER_BASE_INTERVAL = ENV.fetch('SCHEDULER_BASE_INTERVAL', '20').to_i
-FARADAY_TIMEOUT = ENV.fetch('FARADAY_TIMEOUT', '10').to_i
+Dotenv.load '.env.local', '.env'
+require_relative 'lib/config'
 
 $stdout.sync = true
 logger = Logger.new($stdout)
