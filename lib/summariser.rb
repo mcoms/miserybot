@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class Summariser
-  def initialize(records)
+  def initialize(records, region)
     @records = records.dup.sort!.reverse!
+    @region = region
   end
 
   def to_s
     <<~SUMMARY
-      Latest <https://coronavirus.data.gov.uk/|England numbers> (daily):
+      Latest <https://coronavirus.data.gov.uk/|#{@region} numbers> (daily):
       - #{latest_cases_record.friendly_cases}
       - #{latest_admissions_record.friendly_admissions}
       - #{latest_deaths_record.friendly_deaths}

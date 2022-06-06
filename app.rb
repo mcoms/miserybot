@@ -24,7 +24,7 @@ scheduler.cron(CRON_SCHEDULE, overlap: false, timeout: SCHEDULER_TIMEOUT) do |jo
   Retriable.retriable(on: [Faraday::ServerError, Faraday::ConnectionFailed], on_retry: on_retry,
                       tries: SCHEDULER_TRIES, base_interval: SCHEDULER_BASE_INTERVAL) do
     records = WebClient.new(DATA_URL, timeout: FARADAY_TIMEOUT).fetch_records
-    summary = Summariser.new(records).to_s
+    summary = Summariser.new(records, DATA_REGION).to_s
     logger.debug summary
     SlackClient.new(SLACK_API_TOKEN, SLACK_CHANNEL, SLACK_THREAD_TS).post_message(summary)
   end

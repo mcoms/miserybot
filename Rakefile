@@ -15,7 +15,7 @@ task default: %w[post]
 desc 'Get the latest summary and post it to the channel'
 task :post do
   records = WebClient.new(DATA_URL).fetch_records
-  summary = Summariser.new(records).to_s
+  summary = Summariser.new(records, DATA_REGION).to_s
   puts summary
   SlackClient.new(SLACK_API_TOKEN, SLACK_CHANNEL, SLACK_THREAD_TS).post_message(summary)
 end

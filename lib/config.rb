@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-DATA_URL = 'https://api.coronavirus.data.gov.uk/v2/data?areaType=nation&areaCode=E92000001&metric=newAdmissions&metric=newCasesByPublishDate&metric=newDeaths28DaysByPublishDate&metric=newVirusTestsByPublishDate&metric=newVaccinesGivenByPublishDate&format=json'
-CRON_SCHEDULE = ENV.fetch 'CRON_SCHEDULE', '15 16 * * * Europe/London'
+DATA_URL = ENV.fetch 'DATA_URL', 'https://api.coronavirus.data.gov.uk/v2/data?areaType=nation&areaCode=E92000001&metric=newAdmissions&metric=newCasesByPublishDate&metric=newDeaths28DaysByPublishDate&metric=newVirusTestsByPublishDate&metric=newVaccinesGivenByPublishDate&format=json'
+DATA_REGION = ENV.fetch 'DATA_REGION', 'England'
+CRON_SCHEDULE = ENV.fetch 'CRON_SCHEDULE', '15 16 * * 1-5 Europe/London'
 SLACK_API_TOKEN = ENV.fetch 'SLACK_API_TOKEN'
 SLACK_CHANNEL = ENV.fetch 'SLACK_CHANNEL'
 SLACK_THREAD_TS = ENV.fetch 'SLACK_THREAD_TS', nil
